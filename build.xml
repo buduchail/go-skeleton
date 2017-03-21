@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<project name="go-skeleton" default="build">
+
+    <property name="gopath" value="${basedir}"/>
+    <property name="gobin" value="${basedir}/bin"/>
+    <property name="apppkg" value="skel"/>
+    <property name="appbin" value="${basedir}/${apppkg}"/>
+
+    <!-- Start public interface -->
+    <target name="build" depends="install,go-build,test"/>
+    <target name="dev-build" depends="build"/>
+    <target name="run" depends="install,go-build,run-server"/>
+    <target name="test" depends="go-test"/>
+    <target name="benchmark" depends="run-benchmarks"/>
+    <!-- End public interface -->
+
+    <target name="install" description="Install project go dependencies">
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="${basedir}/setup.sh"/>
+        </exec>
+    </target>
+
+    <target name="go-build">
+        <exec executable="go">
+            <env key="GOPATH" value="${gopath}"/>
+            <env key="GOBIN" value="${gobin}"/>
+            <arg value="build"/>
+            <arg value="${apppkg}"/>
+        </exec>
+    </target>
+
+    <target name="go-test" description="Run project tests">
+        <exec executable="go" failonerror="true">
+            <env key="GOPATH" value="${gopath}"/>
+            <env key="GOBIN" value="${gobin}"/>
+            <arg value="test"/>
+            <arg value="${apppkg}/domain"/>
+        </exec>
+    </target>
+
+    <target name="run-server" description="Run server with JSON output">
+        <exec executable="${appbin}" failonerror="true">
+            <arg value="-router"/>
+            <arg value="iris"/>
+        </exec>
+    </target>
+
+    <target name="run-benchmarks">
+        <exec executable="/bin/bash">
+            <arg value="${basedir}/benchmark.sh"/>
+        </exec>
+    </target>
+
+</project>

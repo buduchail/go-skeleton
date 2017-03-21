@@ -1,0 +1,94 @@
+{
+  "Ofrendas": [
+    {
+      "ID": 1,
+      "Type": "food",
+      "Name": "Chocolate"
+    },
+    {
+      "ID": 2,
+      "Type": "food",
+      "Name": "Calabaza"
+    },
+    {
+      "ID": 3,
+      "Type": "food",
+      "Name": "Fruta"
+    },
+    {
+      "ID": 4,
+      "Type": "food",
+      "Name": "Pan de muerto"
+    },
+    {
+      "ID": 5,
+      "Type": "food",
+      "Name": "Tamal"
+    },
+    {
+      "ID": 6,
+      "Type": "food",
+      "Name": "Mole"
+    },
+    {
+      "ID": 7,
+      "Type": "drink",
+      "Name": "Agua"
+    },
+    {
+      "ID": 8,
+      "Type": "drink",
+      "Name": "Tequila"
+    },
+    {
+      "ID": 9,
+      "Type": "drink",
+      "Name": "Mezcal"
+    },
+    {
+      "ID": 10,
+      "Type": "flower",
+      "Name": "Cempasúchil"
+    },
+    {
+      "ID": 11,
+      "Type": "flower",
+      "Name": "Amaranto"
+    },
+    {
+      "ID": 12,
+      "Type": "flower",
+      "Name": "Alheli"
+    },
+    {
+      "ID": 13,
+      "Type": "flower",
+      "Name": "Nube"
+    }
+  ],
+  "Altares": [
+  ],
+  "Difuntos": [
+    {
+      "ID": 1,
+      "Name": "Frida Kahlo",
+      "Born": "6 de julio de 1907",
+      "Deceased": "13 de julio de 1954",
+      "Field": "Arts"
+    },
+    {
+      "ID": 2,
+      "Name": "Cantinflas",
+      "Born": "12 de agosto de 1911",
+      "Deceased": "20 de abril de 1993",
+      "Field": "Entertainment"
+    },
+    {
+      "ID": 3,
+      "Name": "Emiliano Zapata",
+      "Born": "8 de agosto de 1879",
+      "Deceased": "10 de abril de 1919",
+      "Field": "Politics"
+    }
+  ]
+}

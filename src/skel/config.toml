@@ -1,0 +1,26 @@
+# URL prefix for REST resource routes
+Prefix = "/api/v1"
+
+# Router used to dispatch HTTP requests
+# Available types are: nethttp iris httprouter echo fasthttp gin
+Router = "nethttp"
+
+# HTTP port
+Port = 8080
+
+# HTTP header to inspect for Correlation ID value
+CorrId = "X-Correlation-ID"
+
+# Path to a file to save profiling information, or "web" if profiling in server mode.
+# If left empty profiling will be disabled
+Profile = ""
+
+# Log level to output. Only messages at this level or higher will be logged.
+# Available levels are: debug, info, warn, error, panic, fatal
+LogLevel = "info"
+
+# Path to file where log output should be writen. If empty, logs will be sent to stdout.
+LogFile = ""
+
+# Log output format. Available formats are: text, JSON
+LogFormat = "text"
