@@ -28,4 +28,5 @@ go get github.com/emicklei/go-restful
 go get github.com/koding/multiconfig
 go get github.com/sirupsen/logrus
 go get github.com/satori/go.uuid
+go get github.com/buduchail/catrina
 echo "Done."

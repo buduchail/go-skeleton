@@ -7,13 +7,15 @@ import (
 	"net/http"
 	"math/rand"
 	"encoding/json"
-	"skel/app"
+	"github.com/buduchail/catrina"
+
 	"skel/domain"
 	"skel/infrastructure/repository"
 )
 
 type (
 	StatusHandler struct {
+		catrina.ResourceHandler
 		prefix string
 		port   int
 		routes []string
@@ -63,15 +65,11 @@ func (s *StatusHandler) SetRoutes(resources []string) {
 	}
 }
 
-func (s StatusHandler) Post(parentIds []app.ResourceID, payload app.Payload) (code int, body app.Payload, err error) {
-	return http.StatusMethodNotAllowed, app.EmptyBody, nil
+func (s StatusHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+	return http.StatusNotFound, catrina.EmptyBody, errors.New("Use " + s.prefix + "/status to query for service status")
 }
 
-func (s StatusHandler) Get(id app.ResourceID, parentIds []app.ResourceID) (code int, body app.Payload, err error) {
-	return http.StatusNotFound, app.EmptyBody, errors.New("Use " + s.prefix + "/status to query for service status")
-}
-
-func (s StatusHandler) GetMany(parentIds []app.ResourceID, params app.QueryParameters) (code int, body app.Payload, err error) {
+func (s StatusHandler) GetMany(parentIds []catrina.ResourceID, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
 	var (
 		status Status
 		mem    runtime.MemStats
@@ -97,12 +95,4 @@ func (s StatusHandler) GetMany(parentIds []app.ResourceID, params app.QueryParam
 	str, _ := json.MarshalIndent(status, "", "    ")
 
 	return http.StatusOK, str, nil
-}
-
-func (s StatusHandler) Put(id app.ResourceID, parentIds []app.ResourceID, payload app.Payload) (code int, body app.Payload, err error) {
-	return http.StatusMethodNotAllowed, app.EmptyBody, nil
-}
-
-func (s StatusHandler) Delete(id app.ResourceID, parentIds []app.ResourceID) (code int, body app.Payload, err error) {
-	return http.StatusMethodNotAllowed, app.EmptyBody, nil
 }

@@ -3,7 +3,9 @@ package main
 import (
 	"skel/app"
 	"skel/app/resources"
-	"skel/app/middleware"
+
+	"github.com/buduchail/catrina"
+	"github.com/buduchail/catrina/middleware"
 )
 
 const (
@@ -44,7 +46,7 @@ func main() {
 	api.AddResource("altares/*/niveles", resources.NewNivelHandler(repo))
 	api.AddResource("difuntos", resources.NewDifuntoHandler(repo))
 
-	logger.Info("Starting server", &app.LoggerContext{"router": config.Router, "port": config.Port})
+	logger.Info("Starting server", &catrina.LoggerContext{"router": config.Router, "port": config.Port})
 
 	api.Run(config.Port)
 }

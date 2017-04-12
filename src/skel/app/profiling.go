@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"runtime/pprof"
 	_ "net/http/pprof"
+	"github.com/buduchail/catrina"
 )
 
-func SetUpProfiling(profilePath string, port int, logger Logger) {
+func SetUpProfiling(profilePath string, port int, logger catrina.Logger) {
 
 	if profilePath != "" {
 
@@ -24,9 +25,9 @@ func SetUpProfiling(profilePath string, port int, logger Logger) {
 		go func() {
 			err := http.ListenAndServe(":"+strconv.Itoa(port+1), nil)
 			if err == nil {
-				logger.Info("Runnig profile server", &LoggerContext{"port": port + 1})
+				logger.Info("Runnig profile server", &catrina.LoggerContext{"port": port + 1})
 			} else {
-				logger.Warn("Could not start profiling server", &LoggerContext{"error": err})
+				logger.Warn("Could not start profiling server", &catrina.LoggerContext{"error": err})
 			}
 		}()
 

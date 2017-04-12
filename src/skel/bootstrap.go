@@ -8,11 +8,12 @@ import (
 	"runtime"
 
 	"github.com/sirupsen/logrus"
+	"github.com/buduchail/catrina"
+	"github.com/buduchail/catrina/rest"
+	"github.com/buduchail/catrina/config"
+	"github.com/buduchail/catrina/logger"
 
-	"skel/app"
-	"skel/infrastructure/rest"
 	"skel/infrastructure/repository"
-	"skel/infrastructure/logger"
 )
 
 var (
@@ -36,34 +37,34 @@ var (
 	}
 )
 
-func getConfig(path string) (config Config, err error) {
-	config = Config{}
-	err = app.LoadConfig(path, &config)
-	return config, err
+func getConfig(path string) (config_ Config, err error) {
+	config_ = Config{}
+	err = config.Load(path, &config_)
+	return config_, err
 }
 
-func getLogger(config Config) (app.Logger, error) {
+func getLogger(config_ Config) (catrina.Logger, error) {
 
-	l := logger.NewLogrus(app.LoggerContext{
+	l := logger.NewLogrus(catrina.LoggerContext{
 		"App": "go-skeleton",
 	})
 
 	l.SetLevel(logrus.InfoLevel)
 	l.SetOutput(os.Stdout)
 
-	if strings.ToLower(config.LogFormat) == "json" {
+	if strings.ToLower(config_.LogFormat) == "json" {
 		l.SetFormatter(&logrus.JSONFormatter{})
 	}
 
-	level, ok := logLevels[strings.ToLower(config.LogLevel)]
+	level, ok := logLevels[strings.ToLower(config_.LogLevel)]
 	if ok {
 		l.SetLevel(level)
 	} else {
-		l.Warn("Ignoring unknown log level", &app.LoggerContext{"ignored": config.LogLevel})
+		l.Warn("Ignoring unknown log level", &catrina.LoggerContext{"ignored": config_.LogLevel})
 	}
 
-	if config.LogFile != "" {
-		file, err := os.OpenFile(config.LogFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
+	if config_.LogFile != "" {
+		file, err := os.OpenFile(config_.LogFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
 		if err == nil {
 			l.SetOutput(file)
 		}
@@ -78,7 +79,7 @@ func getRepository(path string) (repo *repository.DayOfTheDeadMemoryRepository, 
 	return repo, err
 }
 
-func getApi(prefix string, apiType string) (app.RestAPI, error) {
+func getApi(prefix string, apiType string) (catrina.RestAPI, error) {
 
 	switch apiType {
 	case "n", routers["n"]:
@@ -100,17 +101,17 @@ func getApi(prefix string, apiType string) (app.RestAPI, error) {
 	return nil, errors.New("Unknow router type: " + apiType)
 }
 
-func bootstrap(configFile string, dataFile string) (Config, app.Logger, *repository.DayOfTheDeadMemoryRepository, app.RestAPI) {
+func bootstrap(configFile string, dataFile string) (Config, catrina.Logger, *repository.DayOfTheDeadMemoryRepository, catrina.RestAPI) {
 
 	_, filename, _, _ := runtime.Caller(0)
 	baseDir := path.Dir(filename)
 
-	config, err := getConfig(baseDir + "/" + configFile)
+	config_, err := getConfig(baseDir + "/" + configFile)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not load configuration (" + err.Error() + ")")
 	}
 
-	logger_, err := getLogger(config)
+	logger_, err := getLogger(config_)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not configure logger (" + err.Error() + ")")
 	}
@@ -120,10 +121,10 @@ func bootstrap(configFile string, dataFile string) (Config, app.Logger, *reposit
 		panic("[BOOTSTRAP] Could not load repository data (" + err.Error() + ")")
 	}
 
-	api, err := getApi(config.Prefix, config.Router)
+	api, err := getApi(config_.Prefix, config_.Router)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not provision api (" + err.Error() + ")")
 	}
 
-	return config, logger_, repo, api
+	return config_, logger_, repo, api
 }
