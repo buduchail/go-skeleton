@@ -11,7 +11,6 @@ import (
 	"github.com/buduchail/catrina/rest"
 
 	"skel/domain"
-	"skel/infrastructure/repository"
 )
 
 type (
@@ -50,7 +49,7 @@ func getMemStr(bytes uint64) string {
 	return fmt.Sprintf("%.2f TB", n)
 }
 
-func NewStatusHandler(prefix string, port int, repo *repository.DayOfTheDeadMemoryRepository) (handler StatusHandler) {
+func NewStatusHandler(prefix string, port int, repo domain.DayOfTheDeadRepository) (handler StatusHandler) {
 	handler = StatusHandler{}
 	handler.prefix = prefix
 	handler.port = port

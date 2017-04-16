@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"skel/domain"
 	"errors"
-	"strconv"
+	"fmt"
 )
 
 type (
@@ -17,14 +17,14 @@ type (
 		}
 		index struct {
 			GiftByType map[string][]*domain.Gift
-			ShrineById map[int]*domain.Shrine
+			ShrineById map[int64]*domain.Shrine
 		}
-		lastId int
+		lastId int64
 		stats  map[string]int
 	}
 )
 
-func NewDayOfTheDeadMemoryRepository() (m *DayOfTheDeadMemoryRepository) {
+func NewDayOfTheDeadMemoryRepository(path string) (m *DayOfTheDeadMemoryRepository, err error) {
 	m = &DayOfTheDeadMemoryRepository{}
 	m.stats = map[string]int{
 		"ofrendas": 0,
@@ -32,11 +32,11 @@ func NewDayOfTheDeadMemoryRepository() (m *DayOfTheDeadMemoryRepository) {
 		"difuntos": 0,
 	}
 	m.index.GiftByType = make(map[string][]*domain.Gift, 0)
-	m.index.ShrineById = make(map[int]*domain.Shrine, 0)
-	return m
+	m.index.ShrineById = make(map[int64]*domain.Shrine, 0)
+	return m, m.loadData(path)
 }
 
-func (m *DayOfTheDeadMemoryRepository) LoadData(path string) (err error) {
+func (m *DayOfTheDeadMemoryRepository) loadData(path string) (err error) {
 
 	str, err := ioutil.ReadFile(path);
 	if err != nil {
@@ -49,7 +49,7 @@ func (m *DayOfTheDeadMemoryRepository) LoadData(path string) (err error) {
 	}
 
 	m.index.GiftByType = make(map[string][]*domain.Gift, 0)
-	m.index.ShrineById = make(map[int]*domain.Shrine, 0)
+	m.index.ShrineById = make(map[int64]*domain.Shrine, 0)
 
 	for _, gift := range m.data.Ofrendas {
 		m.index.GiftByType[gift.Type] = append(m.index.GiftByType[gift.Type], gift)
@@ -85,7 +85,7 @@ func (m *DayOfTheDeadMemoryRepository) SaveShrine(shrine *domain.Shrine) error {
 	if shrine.ID > 0 {
 		old, exists := m.index.ShrineById[shrine.ID]
 		if !exists {
-			return errors.New("Shrine not found: " + strconv.Itoa(shrine.ID))
+			return errors.New(fmt.Sprintf("Shrine not found: %d", shrine.ID))
 		}
 		old.Levels = shrine.Levels
 		old.Shelves = shrine.Shelves
@@ -102,18 +102,18 @@ func (m *DayOfTheDeadMemoryRepository) GetAlShrines() []*domain.Shrine {
 }
 
 func (m *DayOfTheDeadMemoryRepository) GetShrineByID(id int) *domain.Shrine {
-	shrine, _ := m.index.ShrineById[id]
+	shrine, _ := m.index.ShrineById[int64(id)]
 	return shrine
 }
 
 func (m*DayOfTheDeadMemoryRepository) DeleteShrine(id int) error {
 
-	_, exists := m.index.ShrineById[id]
+	_, exists := m.index.ShrineById[int64(id)]
 	if !exists {
 		return errors.New("That shrine does not exist")
 	}
 
-	delete(m.index.ShrineById, id)
+	delete(m.index.ShrineById, int64(id))
 
 	return nil
 }

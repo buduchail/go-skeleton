@@ -24,7 +24,7 @@ type (
 	}
 
 	Shrine struct {
-		ID        int
+		ID        int64
 		MexicanID int
 		Tribute   string
 		Levels    int

@@ -13,6 +13,7 @@ import (
 	"github.com/buduchail/catrina/config"
 	"github.com/buduchail/catrina/logger"
 
+	"skel/domain"
 	"skel/infrastructure/repository"
 )
 
@@ -46,7 +47,8 @@ func getConfig(path string) (config_ Config, err error) {
 func getLogger(config_ Config) (catrina.Logger, error) {
 
 	l := logger.NewLogrus(catrina.LoggerContext{
-		"App": "go-skeleton",
+		"App":        "go-skeleton",
+		"Repository": config_.Repository,
 	})
 
 	l.SetLevel(logrus.InfoLevel)
@@ -73,10 +75,23 @@ func getLogger(config_ Config) (catrina.Logger, error) {
 	return l, nil
 }
 
-func getRepository(path string) (repo *repository.DayOfTheDeadMemoryRepository, err error) {
-	repo = repository.NewDayOfTheDeadMemoryRepository()
-	err = repo.LoadData(path)
-	return repo, err
+func getRepository(repoType, path, dsn string) (repo domain.DayOfTheDeadRepository, err error) {
+
+	if repoType == "mysql" {
+		mys, err := repository.NewDayOfTheDeadMySqlRepository(dsn)
+		if err != nil {
+			return nil, err
+		}
+		repo = mys
+	} else {
+		mem, err := repository.NewDayOfTheDeadMemoryRepository(path)
+		if err != nil {
+			return nil, err
+		}
+		repo = mem
+	}
+
+	return repo, nil
 }
 
 func getApi(prefix string, apiType string) (catrina.RestAPI, error) {
@@ -101,7 +116,7 @@ func getApi(prefix string, apiType string) (catrina.RestAPI, error) {
 	return nil, errors.New("Unknow router type: " + apiType)
 }
 
-func bootstrap(configFile string, dataFile string) (Config, catrina.Logger, *repository.DayOfTheDeadMemoryRepository, catrina.RestAPI) {
+func bootstrap(configFile string, dataFile string) (Config, catrina.Logger, domain.DayOfTheDeadRepository, catrina.RestAPI) {
 
 	_, filename, _, _ := runtime.Caller(0)
 	baseDir := path.Dir(filename)
@@ -116,7 +131,7 @@ func bootstrap(configFile string, dataFile string) (Config, catrina.Logger, *rep
 		panic("[BOOTSTRAP] Could not configure logger (" + err.Error() + ")")
 	}
 
-	repo, err := getRepository(baseDir + "/" + dataFile)
+	repo, err := getRepository(config_.Repository, baseDir+"/"+dataFile, config_.Dsn)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not load repository data (" + err.Error() + ")")
 	}

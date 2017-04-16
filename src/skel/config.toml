@@ -24,3 +24,12 @@ LogFile = ""
 
 # Log output format. Available formats are: text, JSON
 LogFormat = "text"
+
+# Repository type to use for domain data
+# Available types are: memory mysql
+Repository = "memory"
+
+# If using repository of type mysql, this dsn (data source name) provides access information
+# to the database to be used (see https://github.com/go-sql-driver/mysql#dsn-data-source-name
+# for a description of the dsn format)
+Dsn = "root@tcp(127.0.0.1:3306)/difuntos?timeout=1s"
