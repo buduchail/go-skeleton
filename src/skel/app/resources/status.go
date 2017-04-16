@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"encoding/json"
 	"github.com/buduchail/catrina"
+	"github.com/buduchail/catrina/rest"
 
 	"skel/domain"
 	"skel/infrastructure/repository"
@@ -15,7 +16,7 @@ import (
 
 type (
 	StatusHandler struct {
-		catrina.ResourceHandler
+		rest.ResourceHandler
 		prefix string
 		port   int
 		routes []string

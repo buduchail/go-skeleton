@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"github.com/buduchail/catrina"
+	"github.com/buduchail/catrina/rest"
 
 	"skel/app/usecases"
 	"skel/domain"
@@ -13,7 +14,7 @@ import (
 
 type (
 	NivelHandler struct {
-		catrina.ResourceHandler
+		rest.ResourceHandler
 		repo domain.DayOfTheDeadRepository
 	}
 )
