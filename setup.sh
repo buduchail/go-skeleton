@@ -29,4 +29,5 @@ go get github.com/koding/multiconfig
 go get github.com/sirupsen/logrus
 go get github.com/satori/go.uuid
 go get github.com/buduchail/catrina
+go get github.com/go-sql-driver/mysql
 echo "Done."
