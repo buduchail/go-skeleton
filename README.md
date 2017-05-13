@@ -33,7 +33,7 @@ $ curl -X DELETE http://localhost:8080/api/v1/altares/1
 A sample `test-use-cases.sh` script is provided. The script tries to launch the service on port 1234, creates a
 shrine and puts a gift in the shrine. The output of each call is printed on screen and finally the service is stopped.
 
-For code layout, a standard Go [workspace](https://golang.org/doc/code.html#Workspaces) is used with a DDD approach to organize packages.
+For code layout, a standard Go [workspace](https://golang.org/doc/code.html#Workspaces) is used with a Clean Architecture approach to organize packages.
 
 
 ![La Catrina](la-catrina.jpg)
