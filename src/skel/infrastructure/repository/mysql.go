@@ -125,8 +125,14 @@ func (r DayOfTheDeadMySqlRepository) FindGiftsByType(t string) []*domain.Gift {
 
 	gifts := make([]*domain.Gift, 0)
 
-	for obj := range r.gifts.SelectWhereFields([]string{"tipo"}, []catrina.Value{t}) {
-		gift, ok := obj.(*domain.Gift)
+	rows, err := r.gifts.SelectWhereFields([]string{"tipo"}, []catrina.Value{t})
+	if err != nil {
+		// silently ignore this error
+		return gifts
+	}
+
+	for row := range rows {
+		gift, ok := row.Result.(*domain.Gift)
 		if !ok {
 			// silently ignore this row
 		}
@@ -181,10 +187,15 @@ func (r DayOfTheDeadMySqlRepository) SaveShrine(shrine *domain.Shrine) error {
 func (r DayOfTheDeadMySqlRepository) GetAlShrines() []*domain.Shrine {
 
 	shrines := make([]*domain.Shrine, 0)
-	return shrines
 
-	for obj := range r.shrines.SelectWhereExpression("1", []catrina.Value{}) {
-		shrine, ok := obj.(*domain.Shrine)
+	rows, err := r.shrines.SelectWhereExpression("1", []catrina.Value{})
+	if err != nil {
+		// silently ignore this error
+		return shrines
+	}
+
+	for row := range rows {
+		shrine, ok := row.Result.(*domain.Shrine)
 		if !ok {
 			// silently ignoring this row
 			continue
@@ -219,8 +230,14 @@ func (r DayOfTheDeadMySqlRepository) GetAllDeadPeople() []*domain.Dead {
 
 	people := make([]*domain.Dead, 0)
 
-	for obj := range r.dead.SelectWhereExpression("1", []catrina.Value{}) {
-		person, ok := obj.(*domain.Dead)
+	rows, err := r.dead.SelectWhereExpression("1", []catrina.Value{})
+	if err != nil {
+		// silently ignore this error
+		return people
+	}
+
+	for row := range rows {
+		person, ok := row.Result.(*domain.Dead)
 		if !ok {
 			// silently ignoring this row
 			continue
