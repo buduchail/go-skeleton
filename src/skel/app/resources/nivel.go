@@ -23,7 +23,7 @@ func NewNivelHandler(repo domain.DayOfTheDeadRepository) *NivelHandler {
 	return &NivelHandler{repo: repo}
 }
 
-func (n NivelHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (n NivelHandler) Get(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	var shrineId, level int
 
 	shrineId, err = strconv.Atoi(string(parentIds[0]))
@@ -46,7 +46,7 @@ func (n NivelHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID)
 	return http.StatusOK, str, nil
 }
 
-func (n NivelHandler) Put(id catrina.ResourceID, parentIds []catrina.ResourceID, payload catrina.Payload) (code int, body catrina.Payload, err error) {
+func (n NivelHandler) Put(id string, parentIds []string, payload catrina.Payload) (code int, body catrina.Payload, err error) {
 	var (
 		shrine            *domain.Shrine
 		shrineId, shelfId int

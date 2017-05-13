@@ -23,7 +23,7 @@ func NewAltarHandler(repo domain.DayOfTheDeadRepository) *AltarHandler {
 	return &AltarHandler{repo: repo}
 }
 
-func (a AltarHandler) Post(parentIds []catrina.ResourceID, payload catrina.Payload) (code int, body catrina.Payload, err error) {
+func (a AltarHandler) Post(parentIds []string, payload catrina.Payload) (code int, body catrina.Payload, err error) {
 	var template, shrine *domain.Shrine
 
 	template = &domain.Shrine{}
@@ -45,7 +45,7 @@ func (a AltarHandler) Post(parentIds []catrina.ResourceID, payload catrina.Paylo
 	return http.StatusOK, str, nil
 }
 
-func (a AltarHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (a AltarHandler) Get(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	var shrine *domain.Shrine
 
 	shrineId, err := strconv.Atoi(string(id))
@@ -65,7 +65,7 @@ func (a AltarHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID)
 	return http.StatusOK, str, nil
 }
 
-func (a AltarHandler) Delete(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (a AltarHandler) Delete(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	var shrineId int
 
 	shrineId, err = strconv.Atoi(string(id))

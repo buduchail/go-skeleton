@@ -22,11 +22,11 @@ func NewDifuntoHandler(repo domain.DayOfTheDeadRepository) *DifuntoHandler {
 	return &DifuntoHandler{repo: repo}
 }
 
-func (d DifuntoHandler) Post(parentIds []catrina.ResourceID, payload catrina.Payload) (code int, body catrina.Payload, err error) {
+func (d DifuntoHandler) Post(parentIds []string, payload catrina.Payload) (code int, body catrina.Payload, err error) {
 	return http.StatusMethodNotAllowed, catrina.EmptyBody, errors.New("Don't mess with the dead")
 }
 
-func (d DifuntoHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (d DifuntoHandler) Get(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	var dead *domain.Dead
 
 	dead, err = usecases.FindDeadPerson(string(id), d.repo)
@@ -44,17 +44,17 @@ func (d DifuntoHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceI
 	return http.StatusOK, str, nil
 }
 
-func (d DifuntoHandler) GetMany(parentIds []catrina.ResourceID, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
+func (d DifuntoHandler) GetMany(parentIds []string, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
 
 	str, _ := json.MarshalIndent(d.repo.GetAllDeadPeople(), "", "    ")
 
 	return http.StatusOK, str, nil
 }
 
-func (d DifuntoHandler) Put(id catrina.ResourceID, parentIds []catrina.ResourceID, payload catrina.Payload) (code int, body catrina.Payload, err error) {
+func (d DifuntoHandler) Put(id string, parentIds []string, payload catrina.Payload) (code int, body catrina.Payload, err error) {
 	return http.StatusMethodNotAllowed, catrina.EmptyBody, errors.New("Don't mess with the dead")
 }
 
-func (d DifuntoHandler) Delete(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (d DifuntoHandler) Delete(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	return http.StatusMethodNotAllowed, catrina.EmptyBody, errors.New("Don't mess with the dead")
 }

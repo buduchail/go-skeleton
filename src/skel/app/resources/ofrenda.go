@@ -23,7 +23,7 @@ func NewOfrendaHandler(repo domain.DayOfTheDeadRepository) *OfrendaHandler {
 	return &OfrendaHandler{repo: repo}
 }
 
-func (o OfrendaHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (o OfrendaHandler) Get(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 
 	i, err := strconv.Atoi(string(id))
 
@@ -44,7 +44,7 @@ func (o OfrendaHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceI
 	return http.StatusOK, str, nil
 }
 
-func (o OfrendaHandler) GetMany(parentIds []catrina.ResourceID, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
+func (o OfrendaHandler) GetMany(parentIds []string, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
 
 	types, exists := params["type"]
 	if ! exists || len(types) == 0 {

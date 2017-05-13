@@ -65,11 +65,11 @@ func (s *StatusHandler) SetRoutes(resources []string) {
 	}
 }
 
-func (s StatusHandler) Get(id catrina.ResourceID, parentIds []catrina.ResourceID) (code int, body catrina.Payload, err error) {
+func (s StatusHandler) Get(id string, parentIds []string) (code int, body catrina.Payload, err error) {
 	return http.StatusNotFound, catrina.EmptyBody, errors.New("Use " + s.prefix + "/status to query for service status")
 }
 
-func (s StatusHandler) GetMany(parentIds []catrina.ResourceID, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
+func (s StatusHandler) GetMany(parentIds []string, params catrina.QueryParameters) (code int, body catrina.Payload, err error) {
 	var (
 		status Status
 		mem    runtime.MemStats
