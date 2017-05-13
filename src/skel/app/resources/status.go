@@ -39,7 +39,7 @@ func getMemStr(bytes uint64) string {
 	var n float64 = float64(bytes)
 	var d float64 = 1024
 
-	for _, u := range []string{"B!", "KB", "MB", "GB"} {
+	for _, u := range []string{"B", "KB", "MB", "GB"} {
 		if n < d {
 			return fmt.Sprintf("%.1f %s", n, u)
 		}
