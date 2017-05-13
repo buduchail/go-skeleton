@@ -1,4 +1,4 @@
-package app
+package main
 
 import (
 	"os"
@@ -10,7 +10,7 @@ import (
 	"github.com/buduchail/catrina"
 )
 
-func SetUpProfiling(profilePath string, port int, logger catrina.Logger) {
+func setProfiling(profilePath string, port int, logger catrina.Logger) {
 
 	if profilePath != "" {
 

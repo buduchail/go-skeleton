@@ -13,6 +13,7 @@ import (
 	"github.com/buduchail/catrina/config"
 	"github.com/buduchail/catrina/logger"
 
+	"skel/app"
 	"skel/domain"
 	"skel/infrastructure/repository"
 )
@@ -38,13 +39,13 @@ var (
 	}
 )
 
-func getConfig(path string) (config_ Config, err error) {
-	config_ = Config{}
+func getConfig(path string) (config_ app.Config, err error) {
+	config_ = app.Config{}
 	err = config.Load(path, &config_)
 	return config_, err
 }
 
-func getLogger(config_ Config) (catrina.Logger, error) {
+func getLogger(config_ app.Config) (catrina.Logger, error) {
 
 	l := logger.NewLogrus(catrina.LoggerContext{
 		"App":        "go-skeleton",
@@ -116,7 +117,7 @@ func getApi(prefix string, apiType string) (catrina.RestAPI, error) {
 	return nil, errors.New("Unknow router type: " + apiType)
 }
 
-func bootstrap(configFile string, dataFile string) (Config, catrina.Logger, domain.DayOfTheDeadRepository, catrina.RestAPI) {
+func bootstrap(configFile string, dataFile string) (app.Config, catrina.Logger, domain.DayOfTheDeadRepository, catrina.RestAPI) {
 
 	_, filename, _, _ := runtime.Caller(0)
 	baseDir := path.Dir(filename)
