@@ -30,4 +30,5 @@ go get github.com/sirupsen/logrus
 go get github.com/satori/go.uuid
 go get github.com/buduchail/catrina
 go get github.com/go-sql-driver/mysql
+go get github.com/gavv/httpexpect
 echo "Done."

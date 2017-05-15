@@ -130,9 +130,9 @@ This project uses [gpm](https://github.com/pote/gpm), a simple tool inspired in 
 
 [Testing Microservices in Go](https://blog.gopheracademy.com/advent-2014/testing-microservices-in-go) is a good introduction
 to testing in Go and using component tests when testing microservices.
-In this project, domain classes are covered with unit tests using the standard golang testing framework, while functional
-tests are provided to test routes at component level with [baloo](https://github.com/h2non/baloo) and [GoConvey](http://goconvey.co/).
-[Table driven tests](https://github.com/golang/go/wiki/TableDrivenTests) are used in unit testing. (TBD)
+In this project, domain classes are covered with unit tests using the standard golang testing framework, while functional/component
+tests are provided to test routes at component level with [httpexpect](https://github.com/gavv/httpexpect).
+[Table driven tests](https://github.com/golang/go/wiki/TableDrivenTests) are used in unit testing.
 
 ### Profiling
 

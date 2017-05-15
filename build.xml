@@ -5,12 +5,13 @@
     <property name="gobin" value="${basedir}/bin"/>
     <property name="apppkg" value="skel"/>
     <property name="appbin" value="${basedir}/${apppkg}"/>
+    <property name="coverout" value="${basedir}/coverage.tmp"/>
 
     <!-- Start public interface -->
     <target name="build" depends="install,go-build,test"/>
     <target name="dev-build" depends="build"/>
     <target name="run" depends="install,go-build,run-server"/>
-    <target name="test" depends="go-test"/>
+    <target name="test" depends="test-unit,test-functional"/>
     <target name="benchmark" depends="run-benchmarks"/>
     <!-- End public interface -->
 
@@ -29,12 +30,42 @@
         </exec>
     </target>
 
-    <target name="go-test" description="Run project tests">
+    <target name="test-unit" description="Run unit tests">
         <exec executable="go" failonerror="true">
             <env key="GOPATH" value="${gopath}"/>
             <env key="GOBIN" value="${gobin}"/>
             <arg value="test"/>
+            <arg value="-cover"/>
             <arg value="${apppkg}/domain"/>
+        </exec>
+    </target>
+
+    <target name="test-functional" description="Run functional tests" depends="get-package-list">
+        <exec executable="bash" failonerror="true">
+            <env key="GOPATH" value="${gopath}"/>
+            <env key="GOBIN" value="${gobin}"/>
+            <arg value="-c"/>
+            <arg value="go test -coverprofile=${coverout} -coverpkg=${pkglist} skel/tests/functional 2>&amp;1
+            | grep -v 'no packages being tested depend on'"/>
+        </exec>
+    </target>
+
+    <target name="test-coverage" depends="test-functional">
+        <exec executable="go">
+            <env key="GOPATH" value="${gopath}"/>
+            <env key="GOBIN" value="${gobin}"/>
+            <arg value="tool"/>
+            <arg value="cover"/>
+            <arg value="-html=${coverout}"/>
+        </exec>
+    </target>
+
+    <target name="get-package-list">
+        <exec executable="bash" outputproperty="pkglist">
+            <env key="GOPATH" value="${gopath}"/>
+            <env key="GOBIN" value="${gobin}"/>
+            <arg value="-c"/>
+            <arg value="go list skel/... | paste -s -d, -"/>
         </exec>
     </target>
 

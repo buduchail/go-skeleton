@@ -20,6 +20,7 @@ type (
 func NewServer(config Config, api catrina.RestAPI, repo domain.DayOfTheDeadRepository, logger catrina.Logger) Server {
 
 	// middleware is applied in the order in which it is added
+	api.AddMiddleware(middleware.NewResponseHeaders(map[string]string{"Content-type": "application/json"}))
 	api.AddMiddleware(middleware.NewCorrelationID(config.CorrID))
 	api.AddMiddleware(middleware.NewRequestLogger(logger, config.CorrID))
 
