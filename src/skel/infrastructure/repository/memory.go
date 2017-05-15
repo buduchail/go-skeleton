@@ -97,7 +97,7 @@ func (m *DayOfTheDeadMemoryRepository) SaveShrine(shrine *domain.Shrine) error {
 	return nil
 }
 
-func (m *DayOfTheDeadMemoryRepository) GetAlShrines() []*domain.Shrine {
+func (m *DayOfTheDeadMemoryRepository) GetAllShrines() []*domain.Shrine {
 	return nil
 }
 

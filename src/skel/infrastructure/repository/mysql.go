@@ -184,7 +184,7 @@ func (r DayOfTheDeadMySqlRepository) SaveShrine(shrine *domain.Shrine) error {
 	return err
 }
 
-func (r DayOfTheDeadMySqlRepository) GetAlShrines() []*domain.Shrine {
+func (r DayOfTheDeadMySqlRepository) GetAllShrines() []*domain.Shrine {
 
 	shrines := make([]*domain.Shrine, 0)
 

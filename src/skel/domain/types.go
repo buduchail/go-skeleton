@@ -6,7 +6,7 @@ type (
 		GetGiftById(id int) *Gift
 
 		SaveShrine(shrine *Shrine) error
-		GetAlShrines() []*Shrine
+		GetAllShrines() []*Shrine
 		GetShrineByID(id int) *Shrine
 		DeleteShrine(id int) error
 
