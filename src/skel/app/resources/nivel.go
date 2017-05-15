@@ -41,7 +41,7 @@ func (n NivelHandler) Get(id string, parentIds []string) (code int, body catrina
 		return http.StatusBadRequest, catrina.EmptyBody, err
 	}
 
-	str, _ := json.MarshalIndent(shrine.GetLevel(level), "", "    ")
+	str, _ := json.MarshalIndent(shrine.GetGifts(level), "", "    ")
 
 	return http.StatusOK, str, nil
 }

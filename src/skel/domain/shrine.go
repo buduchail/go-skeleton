@@ -55,7 +55,7 @@ func (s *Shrine) AddGift(gift *Gift, level int) error {
 	return nil
 }
 
-func (s *Shrine) GetLevel(level int) []*Gift {
+func (s *Shrine) GetGifts(level int) []*Gift {
 	if level < 1 || level >= len(s.Shelves) {
 		return nil
 	}
