@@ -14,15 +14,15 @@ To do so, it exposes the following endpoints:
 
 An `http://localhost:8080/api/v1/status` endpoint is also exposed, which provides some basic introspection into the service.
 
-The following endpoints can be used to explore what is available:
+The following commands can be used to explore what is available:
 
 ```shell
-$ curl -X GET http://localhost:8080/api/v1/ofrendas
+$ curl -X GET http://localhost:8080/api/v1/ofrendas/1
 $ curl -X GET http://localhost:8080/api/v1/ofrendas?type=flower
 $ curl -X GET http://localhost:8080/api/v1/difuntos
 $ curl -X GET http://localhost:8080/api/v1/altares/1
 ```
-These endpoints can also be used to add and remove shrines and display gifts on its shelves:
+These commands can also be used to add and remove shrines and display gifts on its shelves:
 
 ```shell
 $ curl -X POST http://localhost:8080/api/v1/altares -H "Content-type: application/json" -d '{"MexicanID":1,"Levels":3}'
@@ -100,7 +100,7 @@ This project implements several common infrastructure services. For each service
     * [logrus](https://github.com/sirupsen/logrus) is a stdlib compatible library that provides context (structured logging), formatters (text, JSON) and output handlers (syslog, logstash). A custom interface and wrapper implementation is provided, which simplifies sending custom context in each log invocation.
      
 * Middleware
-    * There are several middleware stacks for golang, such as [alice](https://github.com/justinas/alice), [gorilla toolkit](http://www.gorillatoolkit.org/pkg/handlers)'s handlers or the middleware package from the [echo](https://echo.labstack.com/middleware) framework. In this project a simple middleware stack is implemented by using functions that implement the http.HandlerFunc interface. The middleware stack is only implemented for the net/http adapter.
+    * There are several middleware stacks for golang, such as [alice](https://github.com/justinas/alice), [gorilla toolkit](http://www.gorillatoolkit.org/pkg/handlers)'s handlers or the middleware package from the [echo](https://echo.labstack.com/middleware) framework. In this project a simple middleware stack is provided by using functions that implement the http.HandlerFunc interface. The middleware stack is only implemented for the net/http adapter.
 
 * Correlation ID
     * A correlation ID middleware function is implemented and used in the net/http adapter. It checks for a correlation ID header and inserts a new ID if the header does not exist. The ID is then displayed in a request log, handled by another middleware function.
@@ -181,8 +181,8 @@ Language:
 * [Official documentation](https://golang.org/doc)
 * [Official wiki](https://github.com/golang/go/wiki) with lots of useful pointers
 * [Writing Web Applications](https://golang.org/doc/articles/wiki) - A simple tutorial covering the very basics
-* [Learn X (Go) in Y](https://learnxinyminutes.com/docs/go) - A no frills, learn by example tutorial that also works as a quick Go language reference
-* [Build Web Application with Golang](https://astaxie.gitbooks.io/build-web-application-with-golang/en/) - A nice and extensive open source book abut writing web applications in Go
+* [Learn X (Go) in Y minutes](https://learnxinyminutes.com/docs/go) - A no frills, learn by example tutorial that also works as a quick Go language reference
+* [Build Web Application with Golang](https://astaxie.gitbooks.io/build-web-application-with-golang/en/) - A nice and extensive open source book about writing web applications in Go
 
 Libraries:
 
