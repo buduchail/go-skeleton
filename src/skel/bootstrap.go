@@ -120,9 +120,9 @@ func getApi(prefix string, apiType string) (catrina.RestAPI, error) {
 func bootstrap(configFile string, dataFile string) (app.Config, catrina.Logger, domain.DayOfTheDeadRepository, catrina.RestAPI) {
 
 	_, filename, _, _ := runtime.Caller(0)
-	baseDir := path.Dir(filename)
+	baseDir := path.Dir(filename) + "/../../"
 
-	config_, err := getConfig(baseDir + "/" + configFile)
+	config_, err := getConfig(baseDir + "config/" + configFile)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not load configuration (" + err.Error() + ")")
 	}
@@ -132,7 +132,7 @@ func bootstrap(configFile string, dataFile string) (app.Config, catrina.Logger, 
 		panic("[BOOTSTRAP] Could not configure logger (" + err.Error() + ")")
 	}
 
-	repo, err := getRepository(config_.Repository, baseDir+"/"+dataFile, config_.Dsn)
+	repo, err := getRepository(config_.Repository, baseDir+"data/"+dataFile, config_.Dsn)
 	if err != nil {
 		panic("[BOOTSTRAP] Could not load repository data (" + err.Error() + ")")
 	}

@@ -22,7 +22,7 @@ type (
 )
 
 const (
-	DATA_FILE = "../../data.json"
+	DATA_FILE = "../../../../data/data.json"
 )
 
 var (
